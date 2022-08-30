@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 
 app = Flask(__name__)
 
@@ -19,3 +19,7 @@ def anios(edad):
 @app.route('/mostrar/<nombre>', methods=['GET','POST'])
 def mostrar(nombre):
     return render_template('mostrar.html', nombre=nombre)
+
+@app.route('/redireccionar')
+def redireccionar():
+    return redirect(url_for('inicio'))
