@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, abort
+from flask import Flask, render_template, redirect, url_for, abort, jsonify, request
 
 app = Flask(__name__)
 
@@ -31,3 +31,8 @@ def salir():
 @app.errorhandler(404)
 def pagina_no_encontrada(error):
     return render_template('error404.html', error=error), 404
+
+@app.route('/api/mostrar/<nombre>', methods=['GET','POST'])
+def mostrar_json(nombre):
+    valores = {'nombre': nombre, 'metodo_http': request.method}
+    return jsonify(valores)
