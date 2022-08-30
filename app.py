@@ -1,12 +1,26 @@
-from flask import Flask, render_template, redirect, url_for, abort, jsonify, request
+from flask import Flask, render_template, redirect, url_for, abort, jsonify, request, session
 
 app = Flask(__name__)
+app.secret_key = 'soy_una_llave_secreta_jaja'
 
 
 @app.route('/')
 def inicio():
-    return 'Hola mundo! Los saludo cordialmente desde Flask'
+    if 'username' in session:
+        return f'El usuario desde la maquina: {session["username"]}'
+    return 'No hay usuario desde la maquina'
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form['username']
+        session['username'] = usuario
+        return redirect(url_for('inicio'))
+    return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect(url_for('inicio'))
 
 @app.route('/saludo/<nombre>')
 def saludo(nombre):
