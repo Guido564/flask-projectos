@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, abort
 
 app = Flask(__name__)
 
@@ -23,3 +23,11 @@ def mostrar(nombre):
 @app.route('/redireccionar')
 def redireccionar():
     return redirect(url_for('inicio'))
+
+@app.route('/salir')
+def salir():
+    return abort(404)
+
+@app.errorhandler(404)
+def pagina_no_encontrada(error):
+    return render_template('error404.html', error=error), 404
