@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -15,3 +15,7 @@ def saludo(nombre):
 @app.route('/edad/<int:edad>')
 def anios(edad):
     return f'Hola! Tu edad es {edad} anios'
+
+@app.route('/mostrar/<nombre>', methods=['GET','POST'])
+def mostrar(nombre):
+    return render_template('mostrar.html', nombre=nombre)
